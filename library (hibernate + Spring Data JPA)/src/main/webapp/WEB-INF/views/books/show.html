@@ -17,16 +17,16 @@
 <form th:method="PATCH" th:action="@{/books/{id}/assign_book(id=${book.getId()})}" th:if="${#lists.isEmpty(owner)}">
     <p>Эта книга свободна. Кому назначить ее?</p>
     <label for="person">Выберите человека </label>
-    <select th:object="${person}" th:field="*{personId}" id="person">
-        <option th:each="person : ${people}" th:value="${person.getPersonId()}"
-                th:text="${person.getFullName()}">
+    <select th:object="${person}" th:field="*{id}" id="person">
+        <option th:each="person : ${people}" th:value="${person.getId()}"
+                th:text="${person.getName()}">
         </option>
     </select>
     <input type="submit" value="Назначить книгу"/>
 </form>
 
 <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getId()})}" th:if="${not #lists.isEmpty(owner)}">
-    <p th:text="${'Книга сейчас у: ' + owner.getFullName()}">VALUE</p>
+    <p th:text="${'Книга сейчас у: ' + owner.getName()}">VALUE</p>
     <input type="submit" value="Освободить книгу"/>
 </form>
 <hr/>

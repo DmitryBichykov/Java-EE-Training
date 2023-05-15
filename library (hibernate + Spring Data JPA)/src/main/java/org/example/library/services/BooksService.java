@@ -4,6 +4,8 @@ import org.example.library.models.Book;
 import org.example.library.models.Person;
 import org.example.library.repositories.BooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,18 @@ public class BooksService {
 
     public Object findByOwner(Person owner) {
         return booksRepository.findByOwner(owner);
+    }
+
+    public List<Book> findAll(int page, int booksPerPage, String sortField) {
+        return booksRepository.findAll(PageRequest.of(page, booksPerPage, Sort.by(sortField))).getContent();
+    }
+
+    public List<Book> findAll(String sortField) {
+        return booksRepository.findAll(Sort.by(sortField));
+    }
+
+    public List<Book> findAll(int page, int booksPerPage) {
+        return booksRepository.findAll(PageRequest.of(page, booksPerPage)).getContent();
     }
 
     public List<Book> findAll() {

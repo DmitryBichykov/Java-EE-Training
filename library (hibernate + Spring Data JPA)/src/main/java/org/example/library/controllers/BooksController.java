@@ -1,16 +1,19 @@
 package org.example.library.controllers;
 
+import com.sun.net.httpserver.Request;
 import org.example.library.models.Book;
 import org.example.library.models.Person;
 import org.example.library.services.BooksService;
 import org.example.library.services.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.Optional;
 
 @Controller
@@ -26,9 +29,20 @@ public class BooksController {
     }
 
 
-    @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("books", booksService.findAll());
+    @GetMapping
+    public String index(Model model,
+                        @RequestParam(value = "page", required = false) @Min(0) Integer page,
+                        @RequestParam(value = "books_per_page", required = false) @Min(1) Integer booksPerPage,
+                        @RequestParam(value = "sort_by_year", required = false) boolean sortByYear) {
+        if (page != null & booksPerPage != null & sortByYear) {
+            model.addAttribute("books", booksService.findAll(page, booksPerPage, "year"));
+        } else if (page != null & booksPerPage != null) {
+            model.addAttribute("books", booksService.findAll(page, booksPerPage));
+        } else if (sortByYear) {
+            model.addAttribute("books", booksService.findAll("year"));
+        } else {
+            model.addAttribute("books", booksService.findAll());
+        }
         return "books/index";
     }
 

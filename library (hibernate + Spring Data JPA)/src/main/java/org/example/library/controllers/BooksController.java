@@ -1,6 +1,7 @@
 package org.example.library.controllers;
 
 import com.sun.net.httpserver.Request;
+import jdk.internal.joptsimple.util.RegexMatcher;
 import org.example.library.models.Book;
 import org.example.library.models.Person;
 import org.example.library.services.BooksService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -106,5 +108,20 @@ public class BooksController {
     public String delete(@PathVariable("id") int id) {
         booksService.delete(id);
         return "redirect:/books";
+    }
+
+    @GetMapping("/search")
+    public String searchBook(@RequestParam(value = "s", required = false) String searchString,
+                             Model model) {
+        if (searchString != null) {
+            boolean bookNotFound = false;
+            List<Book> books = booksService.searchBook(searchString);
+            model.addAttribute("searchResults", books);
+            if (books.isEmpty()) {
+                bookNotFound = true;
+            }
+            model.addAttribute("nextSearch", bookNotFound);
+        }
+        return "books/search";
     }
 }

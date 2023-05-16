@@ -75,4 +75,8 @@ public class BooksService {
         book.setOwner(null);
         booksRepository.save(book);
     }
+
+    public List<Book> searchBook(String searchString) {
+        return booksRepository.findByNameContainingIgnoreCase(searchString);
+    }
 }

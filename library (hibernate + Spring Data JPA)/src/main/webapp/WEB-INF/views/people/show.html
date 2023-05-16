@@ -22,7 +22,8 @@
     <hr/>
     <p class='books'>Книги:</p>
     <div th:each="book : ${books}">
-        <p th:text="${book.getName() + ', ' + book.getAuthorName() + ', ' + book.getYear()}">VALUE</p>
+        <p th:text="${book.getName() + ', ' + book.getAuthorName() + ', ' + book.getYear()}"
+           th:style ="${peopleService.isOverdue(book)} ? 'color: red' : 'color: black' ">VALUE</p>
     </div>
     </div>
 

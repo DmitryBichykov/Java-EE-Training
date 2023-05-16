@@ -10,6 +10,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,12 +70,14 @@ public class BooksService {
     @Transactional
     public void assign(Book book, Person person) {
         book.setOwner(person);
+        book.setDateOfAssign(LocalDate.now());
         booksRepository.save(book);
     }
 
     @Transactional
     public void release(Book book) {
         book.setOwner(null);
+        book.setDateOfAssign(null);
         booksRepository.save(book);
     }
 

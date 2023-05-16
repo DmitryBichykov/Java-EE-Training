@@ -1,6 +1,7 @@
 package org.example.library.controllers;
 
 import org.example.library.dao.PersonDAO;
+import org.example.library.models.Book;
 import org.example.library.models.Person;
 import org.example.library.services.PeopleService;
 import org.example.library.util.PersonValidator;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/people")
@@ -34,7 +36,8 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", peopleService.findOne(id));
-        model.addAttribute("books",peopleService.getBookByPersonId(id));
+        model.addAttribute("books", peopleService.getBookByPersonId(id));
+        model.addAttribute("peopleService", peopleService);
         return "people/show";
     }
 

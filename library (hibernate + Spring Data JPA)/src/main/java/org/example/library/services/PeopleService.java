@@ -1,5 +1,6 @@
 package org.example.library.services;
 
+import jdk.jfr.internal.settings.PeriodSetting;
 import org.example.library.models.Book;
 import org.example.library.models.Person;
 import org.example.library.repositories.PeopleRepository;
@@ -8,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,5 +64,10 @@ public class PeopleService {
     @Transactional
     public void delete(int id) {
         peopleRepository.deleteById(id);
+    }
+
+    public boolean isOverdue(Book book) {
+        Period period = Period.between(book.getDateOfAssign(), LocalDate.now());
+        return period.getMonths() != 0 | period.getDays() > 10;
     }
 }

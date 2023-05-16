@@ -1,10 +1,14 @@
 package org.example.library.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 
@@ -29,6 +33,9 @@ public class Book {
     @Column(name = "year")
     private int year;
 
+    @Column(name = "date_of_assign")
+    private LocalDate dateOfAssign;
+
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
@@ -36,12 +43,13 @@ public class Book {
     public Book() {
     }
 
-    public Book(int id, String name, String authorName, int year, Person owner) {
+    public Book(int id, String name, String authorName, int year, Person owner, LocalDate dateOfAssign) {
         this.id = id;
         this.name = name;
         this.authorName = authorName;
         this.year = year;
         this.owner = owner;
+        this.dateOfAssign = dateOfAssign;
     }
 
     public int getId() {
@@ -76,6 +84,14 @@ public class Book {
         this.year = year;
     }
 
+    public LocalDate getDateOfAssign() {
+        return dateOfAssign;
+    }
+
+    public void setDateOfAssign(LocalDate dateOfAssign) {
+        this.dateOfAssign = dateOfAssign;
+    }
+
     public Person getOwner() {
         return owner;
     }
@@ -90,7 +106,8 @@ public class Book {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", authorName='" + authorName + '\'' +
-                ", year=" + year +
+                ", year=" + year + '\'' +
+                ", dateOfAssign=" + dateOfAssign +
                 '}';
     }
 

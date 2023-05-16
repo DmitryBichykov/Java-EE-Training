@@ -36,8 +36,9 @@ public class PeopleController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", peopleService.findOne(id));
-        model.addAttribute("books", peopleService.getBookByPersonId(id));
-        model.addAttribute("peopleService", peopleService);
+        List<Book> books =  peopleService.getBookByPersonId(id);
+        model.addAttribute("books", books);
+        peopleService.isOverdue(books);
         return "people/show";
     }
 

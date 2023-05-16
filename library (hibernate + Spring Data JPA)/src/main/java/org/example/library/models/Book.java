@@ -36,6 +36,9 @@ public class Book {
     @Column(name = "date_of_assign")
     private LocalDate dateOfAssign;
 
+    @Transient
+    private boolean isOverdue;
+
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person owner;
@@ -82,6 +85,14 @@ public class Book {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public boolean isOverdue() {
+        return isOverdue;
+    }
+
+    public void setOverdue(boolean overdue) {
+        isOverdue = overdue;
     }
 
     public LocalDate getDateOfAssign() {

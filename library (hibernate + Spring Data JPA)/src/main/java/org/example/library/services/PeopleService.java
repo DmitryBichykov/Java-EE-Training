@@ -66,8 +66,11 @@ public class PeopleService {
         peopleRepository.deleteById(id);
     }
 
-    public boolean isOverdue(Book book) {
-        Period period = Period.between(book.getDateOfAssign(), LocalDate.now());
-        return period.getMonths() != 0 | period.getDays() > 10;
+    public void isOverdue(List<Book> books) {
+        Period period;
+        for (Book book : books) {
+            period = Period.between(book.getDateOfAssign(), LocalDate.now());
+            book.setOverdue(period.getMonths() != 0 | period.getDays() > 10);
+        }
     }
 }

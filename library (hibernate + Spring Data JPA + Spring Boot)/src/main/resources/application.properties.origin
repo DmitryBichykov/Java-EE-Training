@@ -1,0 +1,12 @@
+# DateSource
+spring.datasource.driver-class.name=
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+
+# hibernate
+spring.jps.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jps.properties.hibernate.show_sql=true
+
+
+spring.mvc.hiddenmethod.filter.enabled=true
